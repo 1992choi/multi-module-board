@@ -1,13 +1,13 @@
-package study.board.hotarticle;
+package demo.board.articleread;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HotArticleApplication {
+public class ArticleReadApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HotArticleApplication.class, args);
+        SpringApplication.run(ArticleReadApplication.class, args);
     }
 
 }

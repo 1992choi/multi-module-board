@@ -1,13 +1,13 @@
-package study.board.articleread;
+package demo.board.comment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ArticleReadApplication {
+public class CommentApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ArticleReadApplication.class, args);
+        SpringApplication.run(CommentApplication.class, args);
     }
 
 }

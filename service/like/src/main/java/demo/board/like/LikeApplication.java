@@ -1,13 +1,13 @@
-package study.board.comment;
+package demo.board.like;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CommentApplication {
+public class LikeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CommentApplication.class, args);
+        SpringApplication.run(LikeApplication.class, args);
     }
 
 }
