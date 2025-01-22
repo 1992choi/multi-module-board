@@ -4,6 +4,7 @@ import demo.board.article.entity.Article;
 import demo.board.article.repository.ArticleRepository;
 import demo.board.article.service.request.ArticleCreateRequest;
 import demo.board.article.service.request.ArticleUpdateRequest;
+import demo.board.article.service.response.ArticlePageResponse;
 import demo.board.article.service.response.ArticleResponse;
 import demo.board.common.snowflake.Snowflake;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,18 @@ public class ArticleService {
     public void delete(Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow();
         articleRepository.delete(article);
+    }
+
+    public ArticlePageResponse readAll(Long boardId, Long page, Long pageSize) {
+        return ArticlePageResponse.of(
+                articleRepository.findAll(boardId, (page - 1) * pageSize, pageSize).stream()
+                        .map(ArticleResponse::from)
+                        .toList(),
+                articleRepository.count(
+                        boardId,
+                        PageLimitCalculator.calculatePageLimit(page, pageSize, 10L)
+                )
+        );
     }
 
 }
