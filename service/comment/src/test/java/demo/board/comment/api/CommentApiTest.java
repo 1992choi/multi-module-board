@@ -89,8 +89,8 @@ public class CommentApiTest {
             System.out.println("comment.getCommentId() = " + comment.getCommentId());
         }
 
-        Long lastParentCommentId = responses1.get(responses1.size() - 1).getParentCommentId();
-        Long lastCommentId = responses1.get(responses1.size() - 1).getCommentId();
+        Long lastParentCommentId = responses1.getLast().getParentCommentId();
+        Long lastCommentId = responses1.getLast().getCommentId();
 
         List<CommentResponse> responses2 = restClient.get()
                 .uri("/v1/comments/infinite-scroll?articleId=1&pageSize=5&lastParentCommentId=%s&lastCommentId=%s"
