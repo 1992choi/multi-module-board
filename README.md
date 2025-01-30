@@ -21,17 +21,25 @@
 - article 
   - 데이터베이스 생성
     - create database article;
-  - article 데이터베이스 접속
+  - 데이터베이스 접속
     - use article;
   - 테이블 생성 스크립트
     - /service/article/src/main/resources/db/rdb-schema.sql
 - comment
   - 데이터베이스 생성
     - create database comment;
-  - article 데이터베이스 접속
+  - 데이터베이스 접속
     - use comment;
   - 테이블 생성 스크립트
     - /service/comment/src/main/resources/db/rdb-schema.sql
+- like
+  - 데이터베이스 생성
+    - create database article_like;
+  - 데이터베이스 접속
+    - use article_like;
+  - 테이블 생성 스크립트
+    - /service/like/src/main/resources/db/rdb-schema.sql
+
 
 ## Primary Key 생성 전략
 - DB auto_increment
