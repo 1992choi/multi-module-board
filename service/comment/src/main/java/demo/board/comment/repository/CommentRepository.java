@@ -69,7 +69,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             value = "select comment.comment_id, comment.content, comment.parent_comment_id, comment.article_id, " +
                     "comment.writer_id, comment.deleted, comment.created_at " +
                     "from comment " +
-                    "where article_id = :articleId and (parent_comment_id, comment_id) > (:lastParentCommentId, :lastCommentId) " +
+                    "where article_id = :articleId and (" +
+                    "   parent_comment_id > :lastParentCommentId or " +
+                    "   (parent_comment_id = :lastParentCommentId and comment_id > :lastCommentId) " +
+                    ")" +
                     "order by parent_comment_id asc, comment_id asc " +
                     "limit :limit",
             nativeQuery = true
