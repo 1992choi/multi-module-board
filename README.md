@@ -39,7 +39,13 @@
     - use article_like;
   - 테이블 생성 스크립트
     - /service/like/src/main/resources/db/rdb-schema.sql
-
+- view
+  - 데이터베이스 생성
+    - create database article_view;
+  - 데이터베이스 접속
+    - use article_view;
+  - 테이블 생성 스크립트
+    - /service/view/src/main/resources/db/rdb-schema.sql
 
 ## Primary Key 생성 전략
 - DB auto_increment
@@ -68,3 +74,7 @@
   - Snowflake, TSID 등의 알고리즘
   - 앞서 살펴본 문자열 방식보다 적은 공간을 사용한다.
     - 64비트를 사용한다. (BIGINT)
+
+## 조회 수 구현을 위한 Redis 활용
+- docker run
+  - docker run --name demo-board-redis -d -p 6379:6379 redis:7.4
