@@ -117,3 +117,14 @@
       - 조회 최적화 서비스를 위한 Consumer Group
   - Consumer Group 내의 Consumer들은 데이터를 중복해서 읽지 않을 수 있다.
   - Consumer Group 별로 데이터를 병렬로 처리할 수 있다.
+
+## Kafka 설정
+- 실행
+  - docker run -d --name demo-board-kafka -p 9092:9092 apache/kafka:3.8.0
+- 접속
+  - docker exec --workdir /opt/kafka/bin/ -it demo-board-kafka sh
+- 토픽 생성
+  - ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic demo-board-article --replication-factor 1 --partitions 3
+  - ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic demo-board-comment --replication-factor 1 --partitions 3
+  - ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic demo-board-like --replication-factor 1 --partitions 3
+  - ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic demo-board-view --replication-factor 1 --partitions 3
