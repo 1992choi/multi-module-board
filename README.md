@@ -128,3 +128,36 @@
   - ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic demo-board-comment --replication-factor 1 --partitions 3
   - ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic demo-board-like --replication-factor 1 --partitions 3
   - ./kafka-topics.sh --bootstrap-server localhost:9092 --create --topic demo-board-view --replication-factor 1 --partitions 3
+
+## Transactional Messaging 개념
+- Producer의 비즈니스 로직과 Kafka로의 이벤트 전송을 하나의 트랜잭션으로 관리 필요.
+  - MySQL의 상태 변경과 Kafka로의 데이터 전송은 서로 다른 시스템이기 때문에 단일 트랜잭션으로 묶을 수 없음.
+    - 즉, 분산 시스템 간에 트랜잭션 관리가 필요
+- Transactional Messaging을 달성하기 위한 분산 트랜잭션의 몇 가지 방법
+  - Two Phase Commit
+    - 이름에서 알 수 있듯이, 두 단계로 나뉘어 수행
+      - Prepare phase(준비 단계)
+        - Coordinator는 각 참여자에게 트랜잭션을 커밋할 준비가 되었는지 물어본다.
+        - 각 참여자는 트랜잭션을 커밋할 준비가 되었는지 응답한다.
+      - Commit phase(커밋 단계)
+        - 모든 참여자가 준비 완료 응답을 보내면, Coordinator는 모든 참여자에게 트랜잭션 커밋을 요청한다.
+        - 모든 참여자는 트랜잭션을 커밋한다.
+    - 단점
+      - 모든 참여자의 응답을 기다려야 하기 때문에 지연이 길어질 수 있다.
+      - Coordinator 또는 참여자 장애가 발생하면,
+        - 참여자들은 현재 상태를 모른 채 대기해야 할 수도 있다.
+        - 트랜잭션 복구 처리가 복잡해질 수 있다.
+  - Transactional Outbox (현재 프로젝트에서 채택한 방식)
+    - 이벤트 전송 작업을 일반적인 데이터베이스 트랜잭션에 포함시킬 수는 없다.
+    - 하지만, 이벤트 전송 정보를 데이터베이스 트랜잭션에 포함하여 기록할 수는 있다.
+      -  트랜잭션을 지원하는 데이터베이스에 Outbox 테이블을 생성하고, 서비스 로직 수행과 Outbox 테이블 이벤트 메시지 기록을 단일 트랜잭션으로 묶는다.
+    - 단점
+      - 추가적인 Outbox 테이블 생성 및 관리가 필요하다.
+      - Outbox 테이블의 미전송 이벤트를 Message Broker로 전송하는 작업이 필요하다.
+  - Transaction Log Tailing
+    - 데이터베이스의 트랜잭션 로그를 추적 및 분석하는 방법
+      - 데이터베이스는 각 트랜잭션의 변경 사항을 로그로 기록한다.
+      - 이러한 로그를 읽어서 Message Broker에 이벤트를 전송해볼 수 있다.
+    - 단점
+      - 트랜잭션 로그를 추적하기 위해 CDC 기술을 활용해야 한다. (추가적인 학습 및 운영 비용 발생)
+      - Database에 종속적이다.
