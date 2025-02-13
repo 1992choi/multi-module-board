@@ -46,6 +46,14 @@
     - use article_view;
   - 테이블 생성 스크립트
     - /service/view/src/main/resources/db/rdb-schema.sql
+- outbox
+  - 데이터베이스 접속 (아래 4개에 접속해서 모든 DB에서 테이블 생성 필요.)
+    - use article;
+    - use comment;
+    - use article_like;
+    - use article_view;
+  - 테이블 생성 스크립트
+    - /common/outbox-message-relay/src/main/resources/db/rdb-schema.sql
 
 ## Primary Key 생성 전략
 - DB auto_increment
